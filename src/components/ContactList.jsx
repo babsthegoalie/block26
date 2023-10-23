@@ -7,30 +7,50 @@ const dummyContacts = [
   { id: 3, name: "BB-8", phone: "888-888-8888", email: "bb8@droids.com" },
 ];
 
-
 function ContactList() { 
   const [contacts, setContacts] = useState(dummyContacts);
+  const [selectedContact, setSelectedContact] = useState(null);
+
+  const handleContactClick = (id) => {
+    const selectedContact = contacts.find(contact => contact.id === id);
+    setSelectedContact(selectedContact);
+  };
 
   return ( 
-    <table>
-      <thead>
-        <tr>
-          <th colSpan="3">Contact List</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Name</td>
-          <td>Email</td>
-          <td>Phone</td>
-        </tr>
-        {
-          contacts.map((contact) => (
-            <ContactRow key={contact.id} contact={contact} />
-          ))
-        }
-      </tbody>
-    </table>
+    <div className="select">
+      <table className="table">
+        <thead>
+          <tr>
+            <th colSpan="3"><h2>Contact List</h2></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr className="lables">
+            <td>NAME</td>
+            <td>EMAIL</td>
+            <td>PHONE</td>
+          </tr>
+          {
+            contacts.map((contact) => (
+              <ContactRow
+                key={contact.id}
+                contact={contact}
+                onClick={handleContactClick}
+              />
+            ))
+          }
+        </tbody>
+      </table>
+
+      {selectedContact && (
+        <div className="select">
+          <h2>Selected Contact</h2>
+          <div>Name: {selectedContact.name}</div>
+          <div>Email: {selectedContact.email}</div>
+          <div>Phone: {selectedContact.phone}</div>
+        </div>
+      )}
+    </div>
   ); 
 }
 
